@@ -1,5 +1,6 @@
 package alicante.pkg2d.fitnesstracker;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -7,7 +8,8 @@ public class Workout {
     public void wTransaction(){
         
         Scanner sc = new Scanner (System.in);
-        String response;
+        String response = "yes";
+        int action = -1;
         do{
         
         System.out.println("");
@@ -32,12 +34,18 @@ public class Workout {
         System.out.println("--------------------");
         
         System.out.print("Enter Action: ");
-        if (!sc.hasNextInt()) {
-                System.out.print("Invalid input! Please enter a number between 1 to 5: ");
+        try {
+                action = sc.nextInt(); 
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid action, Please enter a numeric value.");
                 sc.nextLine();
-               
+                continue; 
             }
-        int action = sc.nextInt();
+
+            if (action < 1 || action > 5) {
+                System.out.println("Invalid action, Please enter a value between 1 and 5.");
+                continue; 
+            }
         Workout wt = new Workout ();
         
 
@@ -58,12 +66,16 @@ public class Workout {
                 wt.deleteWorkouts();
                 wt.viewWorkouts();    
                 break;
-        }
-        System.out.println("Do you want to exit workout? (yes/no)");
-        response = sc.next();
-    }while(response.equalsIgnoreCase("no"));
-    System.out.println("Thank You, See you soonest!");
-    
+            case 5:
+                    System.out.println("Exiting Workout Transactions...");
+                    return;
+            }
+
+            System.out.print("Do you want to continue to workout? (yes/no): ");
+            response = sc.next();
+        } while (response.equalsIgnoreCase("yes"));
+
+        System.out.println("Thank You, See you soonest!");
     }
     
     

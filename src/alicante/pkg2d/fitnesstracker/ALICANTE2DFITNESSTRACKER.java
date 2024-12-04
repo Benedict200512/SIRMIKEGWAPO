@@ -1,14 +1,13 @@
 package alicante.pkg2d.fitnesstracker;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ALICANTE2DFITNESSTRACKER {
     
    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        boolean exit = false;  
-        int action = 0;
-        String response = null;
+        boolean exit = true;
 
             do {  
             System.out.println("============================================================");
@@ -42,9 +41,21 @@ public class ALICANTE2DFITNESSTRACKER {
 
             System.out.print("Enter Action: ");
             
-            if (sc.hasNextInt()) {
+           int action = -1; 
+
+            try {
                 action = sc.nextInt(); 
-                sc.nextLine();  
+            } catch (InputMismatchException e) {
+               
+                System.out.println("Invalid action, Please enter a numeric value.");
+                sc.nextLine(); 
+                continue; 
+            }
+
+            if (action < 1 || action > 6) {
+                System.out.println("Invalid action, Please enter a value between 1 and 6.");
+                continue; 
+            }
 
                 switch (action) {
                     case 1:
@@ -73,26 +84,16 @@ public class ALICANTE2DFITNESSTRACKER {
                         break;    
 
                     case 6:
-                        System.out.println("Exiting... Sure naka? (yes/no): ");
-                        String resp = sc.nextLine();  
-                        if (resp.equalsIgnoreCase("yes")) {
-                            exit = true;  
-                        }
-                        break;
-
-                    default:
-                        System.out.println("Invalid action. Please enter a number between 1 and 6.");
-                        break;
-                }
-            } else {
-                System.out.println("Invalid action. Please enter a number between 1 and 6.");
-                sc.nextLine();  
+                    System.out.print("Do you want to exit program? (yes/no): ");
+                    String resp = sc.next();
+                    if (resp.equalsIgnoreCase("yes")) {
+                        exit = false;
+                    }
+                    break;
             }
-            System.out.println("Do you want to exit progam? (yes/no)");
-            response = sc.nextLine();
-            }while(response.equalsIgnoreCase("no"));
-            
-           System.out.println("Hanggang sa muli, Paalam Amego!!");
-           
+        } while (exit);
+
+        System.out.println("Hanggang sa muli, Paalam Amego!");
     }
 }
+
